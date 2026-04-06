@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "772416427242",
+    "project_id": "damascusapp-e6167",
+    "storage_bucket": "damascusapp-e6167.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772416427242:android:7fd1f1e422a6a43301f393",
+        "android_client_info": {
+          "package_name": "com.damascusprojects.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCINohNuuI8qLVOSY9VLzwZeR8w32lsvAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772416427242:android:4bb2b42abe52f35801f393",
+        "android_client_info": {
+          "package_name": "com.damascusprojects.webviewwrapper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCINohNuuI8qLVOSY9VLzwZeR8w32lsvAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
