@@ -21,8 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: const [SystemUiOverlay.bottom],
+    SystemUiMode.edgeToEdge,
   );
 
     if (!kIsWeb &&
@@ -348,143 +347,152 @@ class _WebviewShellPageState extends State<WebviewShellPage> {
           _handleBackPressed();
         }
       },
-      child: Scaffold(
-        backgroundColor: const Color(0xFF07111F),
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: InAppWebView(
-                key: const ValueKey('damascus-webview'),
-                initialUrlRequest: URLRequest(
-                  url: WebUri(kHomeUrl),
-                ),
-                initialSettings: InAppWebViewSettings(
-                  isInspectable: kDebugMode,
-                  javaScriptEnabled: true,
-                  domStorageEnabled: true,
-                  javaScriptCanOpenWindowsAutomatically: true,
-                  mediaPlaybackRequiresUserGesture: false,
-                  allowsInlineMediaPlayback: true,
-                  iframeAllow: 'camera; microphone; autoplay; fullscreen',
-                  iframeAllowFullscreen: true,
-                  transparentBackground: true,
-                  useShouldOverrideUrlLoading: true,
-                  supportZoom: true,
-                  sharedCookiesEnabled: true,
-                  thirdPartyCookiesEnabled: true,
-                ),
-                pullToRefreshController: _pullToRefreshController,
-                onWebViewCreated: (controller) {
-                  _controller = controller;
-                  controller.addJavaScriptHandler(
-                    handlerName: 'saveRecording',
-                    callback: (arguments) async {
-                      if (arguments.isEmpty || arguments.first is! Map) {
-                        return null;
-                      }
-                      await _saveRecordingPayload(arguments.first as Map<dynamic, dynamic>);
-                      return null;
-                    },
-                  );
-                  _syncNavigationState();
-                  _flushQueuedNavigation();
-                },
-                shouldOverrideUrlLoading: (controller, navigationAction) async {
-                  final requestedUrl = navigationAction.request.url;
-                  final uri = requestedUrl == null
-                      ? null
-                      : Uri.tryParse(requestedUrl.toString());
-                  if (uri == null) {
-                    return NavigationActionPolicy.CANCEL;
-                  }
-
-                  if (shouldOpenExternally(uri)) {
-                    await _launchExternalUrl(uri);
-                    return NavigationActionPolicy.CANCEL;
-                  }
-
-                  return NavigationActionPolicy.ALLOW;
-                },
-                onLoadStart: (controller, url) {
-                  setState(() {
-                    _errorMessage = null;
-                  });
-                },
-                onLoadStop: (controller, url) async {
-                  _pullToRefreshController?.endRefreshing();
-                  await _syncNavigationState();
-                  if (mounted) {
-                    setState(() {
-                      _progress = 1;
-                    });
-                  }
-                },
-                onProgressChanged: (controller, progress) {
-                  if (progress == 100) {
-                    _pullToRefreshController?.endRefreshing();
-                  }
-
-                  if (!mounted) {
-                    return;
-                  }
-
-                  setState(() {
-                    _progress = progress / 100;
-                  });
-                },
-                onReceivedError: (controller, request, error) {
-                  _pullToRefreshController?.endRefreshing();
-                  if (!mounted) {
-                    return;
-                  }
-
-                  final mainFrameRequest = request.isForMainFrame == true;
-                  final isLikelyOfflineError = <WebResourceErrorType>{
-                    WebResourceErrorType.HOST_LOOKUP,
-                    WebResourceErrorType.CANNOT_CONNECT_TO_HOST,
-                    WebResourceErrorType.TIMEOUT,
-                    WebResourceErrorType.FAILED_SSL_HANDSHAKE,
-                    WebResourceErrorType.NOT_CONNECTED_TO_INTERNET,
-                    WebResourceErrorType.NETWORK_CONNECTION_LOST,
-                    WebResourceErrorType.CANCELLED,
-                  }.contains(error.type);
-
-                  if (mainFrameRequest && (_isOffline || isLikelyOfflineError)) {
-                    setState(() {
-                      _errorMessage = 'Please check your internet connection and try again.';
-                    });
-                  }
-                },
-                onPermissionRequest: (controller, request) async {
-                  return PermissionResponse(
-                    resources: request.resources,
-                    action: PermissionResponseAction.GRANT,
-                  );
-                },
-                onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                  _syncNavigationState();
-                },
-              ),
-            ),
-            if (_progress < 1)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: LinearProgressIndicator(
-                  minHeight: 3,
-                  value: _progress,
-                  backgroundColor: scheme.primary.withValues(alpha: 0.14),
-                ),
-              ),
-            if (_errorMessage != null)
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+          systemNavigationBarColor: Color(0xFF07111F),
+          systemNavigationBarIconBrightness: Brightness.light,
+        ),
+        child: Scaffold(
+          backgroundColor: const Color(0xFF07111F),
+          body: Stack(
+            children: [
               Positioned.fill(
-                child: Container(
-                  color: const Color(0xFF020814).withValues(alpha: 0.995),
-                  child: _buildErrorOverlay(context),
+                child: InAppWebView(
+                  key: const ValueKey('damascus-webview'),
+                  initialUrlRequest: URLRequest(
+                    url: WebUri(kHomeUrl),
+                  ),
+                  initialSettings: InAppWebViewSettings(
+                    isInspectable: kDebugMode,
+                    javaScriptEnabled: true,
+                    domStorageEnabled: true,
+                    javaScriptCanOpenWindowsAutomatically: true,
+                    mediaPlaybackRequiresUserGesture: false,
+                    allowsInlineMediaPlayback: true,
+                    iframeAllow: 'camera; microphone; autoplay; fullscreen',
+                    iframeAllowFullscreen: true,
+                    transparentBackground: true,
+                    useShouldOverrideUrlLoading: true,
+                    supportZoom: true,
+                    sharedCookiesEnabled: true,
+                    thirdPartyCookiesEnabled: true,
+                  ),
+                  pullToRefreshController: _pullToRefreshController,
+                  onWebViewCreated: (controller) {
+                    _controller = controller;
+                    controller.addJavaScriptHandler(
+                      handlerName: 'saveRecording',
+                      callback: (arguments) async {
+                        if (arguments.isEmpty || arguments.first is! Map) {
+                          return null;
+                        }
+                        await _saveRecordingPayload(arguments.first as Map<dynamic, dynamic>);
+                        return null;
+                      },
+                    );
+                    _syncNavigationState();
+                    _flushQueuedNavigation();
+                  },
+                  shouldOverrideUrlLoading: (controller, navigationAction) async {
+                    final requestedUrl = navigationAction.request.url;
+                    final uri = requestedUrl == null
+                        ? null
+                        : Uri.tryParse(requestedUrl.toString());
+                    if (uri == null) {
+                      return NavigationActionPolicy.CANCEL;
+                    }
+
+                    if (shouldOpenExternally(uri)) {
+                      await _launchExternalUrl(uri);
+                      return NavigationActionPolicy.CANCEL;
+                    }
+
+                    return NavigationActionPolicy.ALLOW;
+                  },
+                  onLoadStart: (controller, url) {
+                    setState(() {
+                      _errorMessage = null;
+                    });
+                  },
+                  onLoadStop: (controller, url) async {
+                    _pullToRefreshController?.endRefreshing();
+                    await _syncNavigationState();
+                    if (mounted) {
+                      setState(() {
+                        _progress = 1;
+                      });
+                    }
+                  },
+                  onProgressChanged: (controller, progress) {
+                    if (progress == 100) {
+                      _pullToRefreshController?.endRefreshing();
+                    }
+
+                    if (!mounted) {
+                      return;
+                    }
+
+                    setState(() {
+                      _progress = progress / 100;
+                    });
+                  },
+                  onReceivedError: (controller, request, error) {
+                    _pullToRefreshController?.endRefreshing();
+                    if (!mounted) {
+                      return;
+                    }
+
+                    final mainFrameRequest = request.isForMainFrame == true;
+                    final isLikelyOfflineError = <WebResourceErrorType>{
+                      WebResourceErrorType.HOST_LOOKUP,
+                      WebResourceErrorType.CANNOT_CONNECT_TO_HOST,
+                      WebResourceErrorType.TIMEOUT,
+                      WebResourceErrorType.FAILED_SSL_HANDSHAKE,
+                      WebResourceErrorType.NOT_CONNECTED_TO_INTERNET,
+                      WebResourceErrorType.NETWORK_CONNECTION_LOST,
+                      WebResourceErrorType.CANCELLED,
+                    }.contains(error.type);
+
+                    if (mainFrameRequest && (_isOffline || isLikelyOfflineError)) {
+                      setState(() {
+                        _errorMessage = 'Please check your internet connection and try again.';
+                      });
+                    }
+                  },
+                  onPermissionRequest: (controller, request) async {
+                    return PermissionResponse(
+                      resources: request.resources,
+                      action: PermissionResponseAction.GRANT,
+                    );
+                  },
+                  onUpdateVisitedHistory: (controller, url, androidIsReload) {
+                    _syncNavigationState();
+                  },
                 ),
               ),
-          ],
+              if (_progress < 1)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: LinearProgressIndicator(
+                    minHeight: 3,
+                    value: _progress,
+                    backgroundColor: scheme.primary.withValues(alpha: 0.14),
+                  ),
+                ),
+              if (_errorMessage != null)
+                Positioned.fill(
+                  child: Container(
+                    color: const Color(0xFF020814).withValues(alpha: 0.995),
+                    child: _buildErrorOverlay(context),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

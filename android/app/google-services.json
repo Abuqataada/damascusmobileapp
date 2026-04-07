@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:772416427242:android:7fd1f1e422a6a43301f393",
+        "mobilesdk_app_id": "1:772416427242:android:4bb2b42abe52f35801f393",
         "android_client_info": {
-          "package_name": "com.damascusprojects.mobile"
+          "package_name": "com.damascusprojects.webviewwrapper"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:772416427242:android:4bb2b42abe52f35801f393",
+        "mobilesdk_app_id": "1:772416427242:android:0dd941c02f0b123d01f393",
         "android_client_info": {
-          "package_name": "com.damascusprojects.webviewwrapper"
+          "package_name": "io.kodular.abuqataada21.Damascus_Projects"
         }
       },
       "oauth_client": [],

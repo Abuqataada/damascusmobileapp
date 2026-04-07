@@ -1,0 +1,4 @@
+storeFile=C:\\Users\\USER\\Downloads\\android.keystore
+storePassword=android
+keyAlias=androidkey
+keyPassword=android

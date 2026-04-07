@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.damascusprojects.webviewwrapper</string>
+	<string>io.kodular.abuqataada21.Damascus-Projects.App</string>
 	<key>PROJECT_ID</key>
 	<string>damascusapp-e6167</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:772416427242:ios:9a3425212a6e7f1f01f393</string>
+	<string>1:772416427242:ios:72bf28c643919a1501f393</string>
 </dict>
 </plist>

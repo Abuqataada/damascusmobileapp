@@ -55,9 +55,9 @@ mediaRecorder.onstop = () => {
 
 ## What the app does with it
 
-- Android: saves the file into public Movies storage so it appears in gallery/media apps
+- Android: saves the file into public Movies storage via scoped storage so it appears in gallery/media apps
 - iPhone: saves the file into the user's Photos library
 
 ## Important note
 
-The bridge now saves to user-visible media storage, which is the best production choice for this use case.
+The bridge now saves to user-visible media storage through the platform-native APIs, which is the best production choice for this use case and avoids broad storage permissions.

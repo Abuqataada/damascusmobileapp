@@ -19,9 +19,11 @@ A Flutter wrapper for `https://app.damascusprojects.com` with support for:
 - Android permissions for camera, microphone, storage, and internet are configured.
 - iOS privacy strings for camera, microphone, and photo library access are configured.
 - External links and non-web schemes open in the device browser or native app.
+- For Android release signing, copy [android/key.properties.example](android/key.properties.example) to `android/key.properties` and fill in your keystore details.
 - Firebase push notifications require your Firebase project files:
   - `android/app/google-services.json`
   - `ios/Runner/GoogleService-Info.plist`
+  - The Android Firebase app should use package name `io.kodular.abuqataada21.Damascus_Projects`
 
 ## Firebase Push Setup
 

@@ -7,7 +7,7 @@ Follow the steps below to finish setup without changing the existing WebView log
 
 Create a Firebase project in the Firebase console and register:
 
-- An Android app with package name `com.damascusprojects.webviewwrapper`
+- An Android app with package name `io.kodular.abuqataada21.Damascus_Projects`
 - An iOS app with the same bundle identifier used by your Flutter iOS project
 
 ## 2. Add Firebase Config Files
@@ -16,6 +16,8 @@ Place these files in the project:
 
 - `android/app/google-services.json`
 - `ios/Runner/GoogleService-Info.plist`
+
+If you changed the Android package name after creating Firebase, re-download `google-services.json` from the Firebase console for the new package name so FCM keeps working.
 
 ## 3. Android Notification Permission
 
